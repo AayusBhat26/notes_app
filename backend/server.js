@@ -26,7 +26,7 @@ const Note = require("./models/note.model");
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: "http://localhost:5173", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: [`Content-Type`, `Authorization`],
@@ -117,6 +117,28 @@ app.post('/login', async (req, res) => {
       message: "Server error occurred"
     });
   }
+});
+
+app.post("/create-note", authenticationToken, async (req, res) => {
+  const { title, content, tags, isPinned } = req.body;
+  const {user} = req.user;
+
+  if(!title || !content) {
+    return res.status(400).json({error: true, message: "Please fill in all required fields."});
+  }
+
+  const note = new Note({
+    title,
+    content,
+    tags,
+    isPinned,
+    userId: user._id,
+  });
+
+  await note.save();
+
+  return res.json({error: false, note, message: "Note created successfully."});
+
 });
 
 app.post('/edit-note/:noteId', authenticationToken, async (req, res) => {
