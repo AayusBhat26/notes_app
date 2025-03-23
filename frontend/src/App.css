@@ -1,0 +1,18 @@
+
+.react-beautiful-dnd-draggable {
+  transition: all 0.3s ease;
+}
+
+.dragging-card {
+  transform: rotate(3deg);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.react-beautiful-dnd-draggable:not(.react-beautiful-dnd-dragging) {
+  transform: translate(0, 0) !important;
+}
+
+/* Smooth transitions */
+.drag-transition {
+  transition: transform 0.2s ease-in-out;
+}
